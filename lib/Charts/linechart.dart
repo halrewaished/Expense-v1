@@ -5,8 +5,8 @@ var testing = {4.0: 3.0};
 Map<double, double> Testing = {1.0: 5.0};
 
 List<Color> gradientColors = [
-  const Color(0xff42966E),
-  const Color(0xff42966E),
+  const Color(0xff76A08C),
+  const Color(0xff37604C),
 ];
 
 LineChartData mainData() {

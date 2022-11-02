@@ -1,11 +1,18 @@
-import 'package:expense_project/welcome.dart';
+import 'package:expense_project/page/tabbar.dart';
+import 'package:expense_project/page/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:expense_project/colors.dart' as color;
+import 'package:expense_project/Model/colors.dart' as color;
 import 'package:flutter/services.dart';
-import 'home.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(MyApp());
+import 'Model/boxGetStorage.dart';
+import 'Model/omniModel.dart';
+
+
+void main() async {
+  await GetStorage.init();
+  runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: color.Colors.backgroundGreenColor,
   ));
@@ -17,51 +24,46 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Expense App',
-      theme: ThemeData(
-          indicatorColor: Colors.green,
-          appBarTheme: AppBarTheme(color: const Color(0xffFFFFFF)),
-          textTheme: TextTheme(
-        // headline1: const TextStyle(fontFamily: 'Source Sans Pro', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, fontSize: 40)
-        headline1: const TextStyle(
-            fontSize: 18, fontWeight: FontWeight.normal, color: Colors.white),
-        headline4: const TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-        bodyText1: const TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-        bodyText2: const TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
-        subtitle1: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-            color: color.Colors.disableColor),
-        subtitle2: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-            color: color.Colors.greenColor),
-      )),
-
-      home: splash());
-      // initialRoute: "/splash",
-      // onGenerateRoute: (settings) {
-      //   final arguments = settings.arguments;
-      //   final arguments2 = settings.arguments;
-      //   switch (settings.name) {
-      //     case '/splash': //splash
-      //       return MaterialPageRoute(builder: (_) => const splash());
-      //     case '/WelcomePage':
-      //       return MaterialPageRoute(builder: (_) => const WelcomePage());
-      //     case '/HomePage':
-      //       return MaterialPageRoute(
-      //           builder: (_) => HomePage(
-      //                 name: arguments, income: arguments2
-      //               ));
-      //     default:
-      //       return null;
-      //   }
-      // },
+    return GetMaterialApp(
+        textDirection: TextDirection.rtl,
+        debugShowCheckedModeBanner: false,
+        title: 'Expense App',
+        theme: ThemeData(
+            indicatorColor: Colors.green,
+            appBarTheme: AppBarTheme(color: const Color(0xffFFFFFF)),
+            textTheme: TextTheme(
+              // headline1: const TextStyle(fontFamily: 'Source Sans Pro', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, fontSize: 40)
+              headline1: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white),
+              headline4: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+              bodyText1: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              bodyText2: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
+              subtitle1: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: color.Colors.disableColor),
+              subtitle2: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: color.Colors.greenColor),
+            )),
+        initialRoute: '/',
+        getPages: [
+          GetPage(name: '/', page: () => const splash()),
+          GetPage(name: '/WelcomePage', page: () => const WelcomePage()),
+          GetPage(name: '/TabBarPage', page: () => const TabBarPage()),
+        ]);
   }
 }
 
@@ -81,6 +83,7 @@ class _splashState extends State<splash> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color.Colors.backgroundGreenColor,
@@ -94,7 +97,12 @@ class _splashState extends State<splash> {
     );
   }
 
-  _wrapper(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => WelcomePage()));
+  _wrapper() async {
+    OMNIModel? omni = await OMNI.shared.get();
+    if (omni != null) {
+      Get.offAndToNamed('/TabBarPage');
+    } else {
+      Get.offAndToNamed('/WelcomePage');
+    }
   }
 }
