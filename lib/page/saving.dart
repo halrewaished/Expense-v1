@@ -21,6 +21,8 @@ class _SavingPageState extends State<SavingPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final OMNIController Controller = Get.find();
+  int selectIndex = 0;
+  final items = ['10%' ,'20%' ,'30%' ,'40%' ];
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +148,7 @@ class _SavingPageState extends State<SavingPage> {
       );
       return;
     }
-    Controller.DATA2.add(TESTMODEL2(value: saving.text.trim(), date: date, expenses: double.parse(expenses.text.trim())));
+    Controller.DATA2.add(TESTMODEL2(value: saving.text.trim(), date: date, saving: double.parse(expenses.text.trim())));
     Get.back();
   }
 }

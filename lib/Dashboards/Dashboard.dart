@@ -253,7 +253,7 @@ class Dashboard extends StatelessWidget {
                         title: Text(Controller.DATA2[index].value),
                         subtitle: Text(Controller.DATA2[index].date),
                         leading: Icon(Icons.coffee),
-                        trailing: Text("${Controller.DATA2[index].expenses}"),
+                        trailing: Text("${Controller.DATA2[index].saving}"),
                       )
                     ],
                   );
