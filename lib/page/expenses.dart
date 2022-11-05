@@ -15,7 +15,6 @@ class ExpensePage extends StatefulWidget {
 }
 
 class _ExpensePageState extends State<ExpensePage> {
-
   String date = DateTime.now().toString().changeDateFormat();
   final TextEditingController expenses = TextEditingController();
   final items = ['التسوق', 'مطعم', 'كافيه', 'الهدايا', 'وسائل النقل'];
@@ -74,7 +73,8 @@ class _ExpensePageState extends State<ExpensePage> {
                                       style: TextStyle(fontSize: 16),
                                     )))
                                 .toList(),
-                            onChanged: (item) => setState(() => selectedItem = item),
+                            onChanged: (item) =>
+                                setState(() => selectedItem = item),
                           ),
                         ),
                       ),
@@ -122,7 +122,8 @@ class _ExpensePageState extends State<ExpensePage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 12,
                         child: TextFormField(
-                          initialValue: DateTime.now().toString().changeDateFormat(),
+                          initialValue:
+                              DateTime.now().toString().changeDateFormat(),
                           onChanged: (item) => setState(() => date = item),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -175,7 +176,10 @@ class _ExpensePageState extends State<ExpensePage> {
       );
       return;
     }
-    Controller.DATA.add(TESTMODEL(value: selectedItem!, date: date, expenses: double.parse(expenses.text.trim())));
+    Controller.DATA.add(TESTMODEL(
+        value: selectedItem!,
+        date: date,
+        expenses: double.parse(expenses.text.trim())));
     Get.back();
   }
 }

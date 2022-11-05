@@ -21,8 +21,9 @@ class _SavingPageState extends State<SavingPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final OMNIController Controller = Get.find();
-  int selectIndex = 0;
-  final items = ['10%' ,'20%' ,'30%' ,'40%' ];
+
+  final itemsIndex = ['10%', '20%', '30%', '40%'];
+  String? selectIndex = '10%';
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +39,35 @@ class _SavingPageState extends State<SavingPage> {
                 child: Container(
                   child: Column(
                     children: [
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: Text("نسبـة الإدخـار ١٠ ٪ ",
+                      //       style: TextStyle(
+                      //           fontFamily: 'Noto',
+                      //           height: 3,
+                      //           color: color.Colors.disableColor,
+                      //           fontStyle: FontStyle.normal,
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: 16)),
+                      // ),
+                      // SizedBox(
+                      //   height: MediaQuery.of(context).size.height / 12,
+                      //   child: TextFormField(
+                      //     controller: saving,
+                      //     decoration: InputDecoration(
+                      //       hintText: '10 %',
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(6),
+                      //         borderSide: BorderSide(
+                      //             width: 1,
+                      //             color: color.Colors.backgroundGreenColor),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text("نسبـة الإدخـار ١٠ ٪ ",
+                        child: Text('اختر تصنيف',
                             style: TextStyle(
                                 fontFamily: 'Noto',
                                 height: 3,
@@ -51,16 +78,31 @@ class _SavingPageState extends State<SavingPage> {
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 12,
-                        child: TextFormField(
-                          controller: saving,
-                          decoration: InputDecoration(
-                            hintText: '10 %',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                  width: 1,
-                                  color: color.Colors.backgroundGreenColor),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(
+                                    width: 1,
+                                    color: color.Colors.backgroundGreenColor),
+                              ),
                             ),
+                            value: selectIndex,
+                            iconSize: 20,
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,
+                                color: color.Colors.backgroundGreenColor),
+                            isExpanded: true,
+                            items: itemsIndex
+                                .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(fontSize: 16),
+                                    )))
+                                .toList(),
+                            onChanged: (item) =>
+                                setState(() => selectIndex = item),
                           ),
                         ),
                       ),
@@ -148,7 +190,10 @@ class _SavingPageState extends State<SavingPage> {
       );
       return;
     }
-    Controller.DATA2.add(TESTMODEL2(value: saving.text.trim(), date: date, saving: double.parse(expenses.text.trim())));
+    Controller.DATA2.add(TESTMODEL2(
+        value: saving.text.trim(),
+        date: date,
+        saving: double.parse(expenses.text.trim())));
     Get.back();
   }
 }
