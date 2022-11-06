@@ -12,7 +12,9 @@ class OMNI {
 
   Future<OMNIModel?> get() async {
     try {
-      return _box.read('current') == "" ? null : omniModelFromJson(_box.read('current'));
+      return _box.read('current') == ""
+          ? null
+          : omniModelFromJson(_box.read('current'));
     } catch (e) {
       log(e.toString());
     }

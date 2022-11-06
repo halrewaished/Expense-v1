@@ -269,25 +269,25 @@ class _DashboardWeekState extends State<DashboardWeek> {
           ],
         ),
       ]),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff37604C),
-        onPressed: () {
-          //code to execute on button press
-        },
-        child: Icon(
-          Icons.add,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xff37604C),
-        unselectedItemColor: Color(0xff37604C),
-        showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: ''),
-        ],
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Color(0xff37604C),
+      //   onPressed: () {
+      //     //code to execute on button press
+      //   },
+      //   child: Icon(
+      //     Icons.add,
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // bottomNavigationBar: BottomNavigationBar(
+      //   selectedItemColor: Color(0xff37604C),
+      //   unselectedItemColor: Color(0xff37604C),
+      //   showUnselectedLabels: true,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ''),
+      //     BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: ''),
+      //   ],
+      // ),
     );
   }
 }

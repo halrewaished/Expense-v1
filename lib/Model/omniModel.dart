@@ -59,7 +59,7 @@ class TESTMODEL2 {
   factory TESTMODEL2.fromJson(Map<String, dynamic> json) => TESTMODEL2(
         value: json['value'],
         date: json['date'],
-        saving: (json["expenses"] ?? 0) * 1.0,
+        saving: (json["saving"] ?? 0) * 1.0,
       );
 
   Map<String, dynamic> toJson() =>

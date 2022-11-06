@@ -141,7 +141,7 @@ class _TopSectionState extends State<TopSection> {
                                 fontSize: 20),
                           ),
                           Text(
-                            "${test.income}",
+                            "${test.income - (Controller.total + Controller.total2)}",
                             style: TextStyle(
                                 fontFamily: 'Noto',
                                 color: color.Colors.backgroundColor,
@@ -278,7 +278,8 @@ class _TopSectionState extends State<TopSection> {
                                                         : Icon(Icons.menu),
                                     trailing: Text(
                                         "${Controller.DATA[index].expenses}-",
-                                        style: TextStyle(color: color.Colors.redColor)),
+                                        style: TextStyle(
+                                            color: color.Colors.redColor)),
                                   ))
                             ],
                           )),

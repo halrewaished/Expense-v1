@@ -32,16 +32,17 @@ class OMNIController extends GetxController {
   double total = 0;
   double total2 = 0;
 
-
   void buildTotal() {
     double sum = 0.0;
     double sum1 = 0.0;
+
     for (var i = 0; i < DATA2.length; ++i) {
       sum += DATA2[i].saving;
     }
     for (var i = 0; i < DATA.length; ++i) {
       sum1 += DATA[i].expenses;
     }
+
     total = sum;
     total2 = sum1;
   }

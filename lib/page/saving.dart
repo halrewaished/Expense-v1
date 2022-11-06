@@ -21,9 +21,8 @@ class _SavingPageState extends State<SavingPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final OMNIController Controller = Get.find();
-
-  final itemsIndex = ['10%', '20%', '30%', '40%'];
   String? selectIndex = '10%';
+  final itemsIndex = ['10%', '20%', '30%', '40%'];
 
   @override
   Widget build(BuildContext context) {
@@ -39,32 +38,6 @@ class _SavingPageState extends State<SavingPage> {
                 child: Container(
                   child: Column(
                     children: [
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: Text("نسبـة الإدخـار ١٠ ٪ ",
-                      //       style: TextStyle(
-                      //           fontFamily: 'Noto',
-                      //           height: 3,
-                      //           color: color.Colors.disableColor,
-                      //           fontStyle: FontStyle.normal,
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 16)),
-                      // ),
-                      // SizedBox(
-                      //   height: MediaQuery.of(context).size.height / 12,
-                      //   child: TextFormField(
-                      //     controller: saving,
-                      //     decoration: InputDecoration(
-                      //       hintText: '10 %',
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(6),
-                      //         borderSide: BorderSide(
-                      //             width: 1,
-                      //             color: color.Colors.backgroundGreenColor),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text('اختر تصنيف',

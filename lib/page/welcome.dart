@@ -174,8 +174,9 @@ class _WelcomePageState extends State<WelcomePage> {
       );
       return;
     }
-   final model = OMNIModel(name: name.text.trim(), income: double.parse(income.text.trim()));
-   await OMNI.shared.set(OMNI: model);
-   Get.offAndToNamed('/TabBarPage');
+    final model = OMNIModel(
+        name: name.text.trim(), income: double.parse(income.text.trim()));
+    await OMNI.shared.set(OMNI: model);
+    Get.offAndToNamed('/TabBarPage');
   }
 }
