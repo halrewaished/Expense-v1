@@ -1,3 +1,4 @@
+import 'package:expense_project/Dashboards/forindexing.dart';
 import 'package:expense_project/Model/extensions.dart';
 import 'package:expense_project/page/home.dart';
 import 'package:expense_project/page/tabBar.dart';
@@ -16,7 +17,6 @@ import '../Model/boxGetStorage.dart';
 import '../Model/omniModel.dart';
 import '../Model/GetxController.dart';
 
-
 var testmap = {"Food": 222, "Coffe": 337, "Entertainment": 988};
 
 List<Color> gradientColors = [
@@ -25,12 +25,11 @@ List<Color> gradientColors = [
 ];
 
 class Dashboard extends StatelessWidget {
-
   String date = DateTime.now().toString().changeDateFormat();
   final TextEditingController expenses = TextEditingController();
-  final OMNIController Controller = Get.put(OMNIController());
+  final OMNIController MonthController = Get.put(OMNIController());
 
-
+  Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +57,13 @@ class Dashboard extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all(Color(0xff4C7360)),
+                            MaterialStateProperty.all(Color(0xff4C7360)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff4C7360))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff4C7360))))),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -81,13 +80,13 @@ class Dashboard extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all(Color(0xff4C7360)),
+                            MaterialStateProperty.all(Color(0xff4C7360)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff4C7360))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff4C7360))))),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -104,13 +103,13 @@ class Dashboard extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all(Color(0xff4C7360)),
+                            MaterialStateProperty.all(Color(0xff4C7360)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff4C7360))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff4C7360))))),
                     onPressed: () {},
                     child: Text("الشهر")),
                 SizedBox(
@@ -122,7 +121,7 @@ class Dashboard extends StatelessWidget {
               height: 170,
               width: 370,
               child: Card(
-                child: LineChart(mainData()),
+                child: LineChart(mainData(indexingg)),
               ),
             ),
             SizedBox(
@@ -142,53 +141,63 @@ class Dashboard extends StatelessWidget {
               height: 11,
             ),
             Expanded(
-              child:
-              Obx(() => ListView.builder(
-                shrinkWrap: true,
-                itemCount: Controller.DATA.length,
-                itemBuilder: ((context, index) {
-                  return Column(
-                    children: [
-                      Card(
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                  flex: 1,
-                                  fit: FlexFit.tight,
-                                  child: ListTile(
-                                    title: Text(Controller.DATA[index].value),
-                                    subtitle: Text(Controller.DATA[index].date),
-                                    leading: Controller.DATA[index].value ==
-                                        "التسوق"
-                                        ? Icon(Icons.shopping_basket_outlined)
-                                        : Controller.DATA[index].value == "مطعم"
-                                        ? Icon(Icons.restaurant)
-                                        : Controller.DATA[index].value ==
-                                        "كافيه"
-                                        ? Icon(Icons.coffee_outlined)
-                                        : Controller.DATA[index]
-                                        .value ==
-                                        "الهدايا"
-                                        ? Icon(Icons
-                                        .card_giftcard_outlined)
-                                        : Controller.DATA[index]
-                                        .value ==
-                                        "وسائل النقل"
-                                        ? Icon(Icons
-                                        .emoji_transportation_outlined)
-                                        : Icon(Icons.menu),
-                                    trailing: Text(
-                                        "${Controller.DATA[index].expenses}-",
-                                        style: TextStyle(color: color.Colors.redColor)),
-                                  ))
-                            ],
-                          )),
-                    ],
-                  );
-                }),
-              )),
+              child: Obx(() => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: MonthController.DATA.length,
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        children: [
+                          Card(
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                      flex: 1,
+                                      fit: FlexFit.tight,
+                                      child: ListTile(
+                                        title: Text(
+                                            MonthController.DATA[index].value),
+                                        subtitle: Text(
+                                            MonthController.DATA[index].date),
+                                        leading: MonthController
+                                                    .DATA[index].value ==
+                                                "التسوق"
+                                            ? Icon(
+                                                Icons.shopping_basket_outlined)
+                                            : MonthController
+                                                        .DATA[index].value ==
+                                                    "مطعم"
+                                                ? Icon(Icons.restaurant)
+                                                : MonthController.DATA[index]
+                                                            .value ==
+                                                        "كافيه"
+                                                    ? Icon(
+                                                        Icons.coffee_outlined)
+                                                    : MonthController
+                                                                .DATA[index]
+                                                                .value ==
+                                                            "الهدايا"
+                                                        ? Icon(Icons
+                                                            .card_giftcard_outlined)
+                                                        : MonthController
+                                                                    .DATA[index]
+                                                                    .value ==
+                                                                "وسائل النقل"
+                                                            ? Icon(Icons
+                                                                .emoji_transportation_outlined)
+                                                            : Icon(Icons.menu),
+                                        trailing: Text(
+                                            "${MonthController.DATA[index].expenses}-",
+                                            style: TextStyle(
+                                                color: color.Colors.redColor)),
+                                      ))
+                                ],
+                              )),
+                        ],
+                      );
+                    }),
+                  )),
             ),
           ],
         ),
@@ -213,7 +222,7 @@ class Dashboard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "${Controller.total}",
+                      "${MonthController.total}",
                       style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
@@ -225,7 +234,7 @@ class Dashboard extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0xff37604C)),
                           borderRadius:
-                          BorderRadius.all(Radius.elliptical(250, 17)),
+                              BorderRadius.all(Radius.elliptical(250, 17)),
                         )),
                   ],
                 ),
@@ -244,21 +253,38 @@ class Dashboard extends StatelessWidget {
             ),
             Expanded(
               child: Obx(() => ListView.builder(
-                shrinkWrap: true,
-                itemCount: Controller.DATA2.length,
-                itemBuilder: ((context, index) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(Controller.DATA2[index].value),
-                        subtitle: Text(Controller.DATA2[index].date),
-                        leading: Icon(Icons.coffee),
-                        trailing: Text("${Controller.DATA2[index].expenses}"),
-                      )
-                    ],
-                  );
-                }),
-              )),
+                    shrinkWrap: true,
+                    itemCount: MonthController.DATA2.length,
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text(MonthController.DATA2[index].value),
+                            subtitle: Text(MonthController.DATA2[index].date),
+                            leading: MonthController.DATA2[index].value ==
+                                    "التسوق"
+                                ? Icon(Icons.shopping_basket_outlined)
+                                : MonthController.DATA[index].value == "مطعم"
+                                    ? Icon(Icons.restaurant)
+                                    : MonthController.DATA[index].value ==
+                                            "كافيه"
+                                        ? Icon(Icons.coffee_outlined)
+                                        : MonthController.DATA[index].value ==
+                                                "الهدايا"
+                                            ? Icon(Icons.card_giftcard_outlined)
+                                            : MonthController
+                                                        .DATA[index].value ==
+                                                    "وسائل النقل"
+                                                ? Icon(Icons
+                                                    .emoji_transportation_outlined)
+                                                : Icon(Icons.menu),
+                            trailing: Text(
+                                "${MonthController.DATA2[index].expenses}"),
+                          )
+                        ],
+                      );
+                    }),
+                  )),
             ),
           ],
         ),

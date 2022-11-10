@@ -31,7 +31,7 @@ class OMNIController extends GetxController {
 
   double total = 0;
   double total2 = 0;
-
+  double total3 = 0;
 
   void buildTotal() {
     double sum = 0.0;

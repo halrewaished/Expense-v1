@@ -1,15 +1,20 @@
+import 'package:expense_project/Model/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-var testing = {4.0: 3.0};
-Map<double, double> Testing = {1.0: 5.0};
+import 'package:intl/intl.dart';
+import '../Model/boxGetStorage.dart';
+import '../Model/omniModel.dart';
+import '../Model/GetxController.dart';
+import 'package:get/get.dart';
+import 'package:expense_project/Model/extensions.dart';
+import 'package:expense_project/Dashboards/forindexing.dart';
 
 List<Color> gradientColors = [
   const Color(0xff76A08C),
   const Color(0xff37604C),
 ];
 
-LineChartData mainData() {
+LineChartData mainData(List<ForIndexing> indexing) {
   return LineChartData(
     gridData: FlGridData(
       show: true,
@@ -60,17 +65,14 @@ LineChartData mainData() {
     minX: 0,
     maxX: 11,
     minY: 0,
-    maxY: 6,
+    maxY: 50000,
     lineBarsData: [
       LineChartBarData(
-        spots: [
-          FlSpot(0, 1),
-          FlSpot(Testing.keys.first, Testing.values.first),
-          FlSpot(2, 3),
-          FlSpot(6, 4),
-          FlSpot(9, 2),
-          FlSpot(11, 5),
-        ],
+        spots: indexing
+            .map(
+                (point) => FlSpot((point.x - 1).toDouble(), point.y.toDouble()))
+            .toList()
+          ..sort(((a, b) => a.x.compareTo(b.x))),
         isCurved: true,
         gradient: LinearGradient(
           colors: gradientColors,
@@ -84,7 +86,7 @@ LineChartData mainData() {
           show: true,
           gradient: LinearGradient(
             colors:
-            gradientColors.map((color) => color.withOpacity(1)).toList(),
+                gradientColors.map((color) => color.withOpacity(1)).toList(),
           ),
         ),
       ),

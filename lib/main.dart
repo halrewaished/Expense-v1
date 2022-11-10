@@ -1,3 +1,4 @@
+import 'package:expense_project/Model/GetxController.dart';
 import 'package:expense_project/page/tabbar.dart';
 import 'package:expense_project/page/welcome.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,8 @@ import 'package:expense_project/Model/colors.dart' as color;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'Model/boxGetStorage.dart';
 import 'Model/omniModel.dart';
-
 
 void main() async {
   await GetStorage.init();

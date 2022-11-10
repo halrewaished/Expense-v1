@@ -15,8 +15,10 @@ class ExpensePage extends StatefulWidget {
 }
 
 class _ExpensePageState extends State<ExpensePage> {
-
   String date = DateTime.now().toString().changeDateFormat();
+  double month = double.parse(DateTime.now().day.toString());
+  double day = double.parse(DateTime.now().hour.toString());
+  double week = double.parse(DateTime.now().weekday.toString());
   final TextEditingController expenses = TextEditingController();
   final items = ['التسوق', 'مطعم', 'كافيه', 'الهدايا', 'وسائل النقل'];
 
@@ -74,7 +76,8 @@ class _ExpensePageState extends State<ExpensePage> {
                                       style: TextStyle(fontSize: 16),
                                     )))
                                 .toList(),
-                            onChanged: (item) => setState(() => selectedItem = item),
+                            onChanged: (item) =>
+                                setState(() => selectedItem = item),
                           ),
                         ),
                       ),
@@ -122,8 +125,11 @@ class _ExpensePageState extends State<ExpensePage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 12,
                         child: TextFormField(
-                          initialValue: DateTime.now().toString().changeDateFormat(),
-                          onChanged: (item) => setState(() => date = item),
+                          initialValue:
+                              DateTime.now().toString().changeDateFormat(),
+                          onChanged: (item) => setState(
+                            () => date = item,
+                          ),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(6),
@@ -175,7 +181,14 @@ class _ExpensePageState extends State<ExpensePage> {
       );
       return;
     }
-    Controller.DATA.add(TESTMODEL(value: selectedItem!, date: date, expenses: double.parse(expenses.text.trim())));
+    Controller.DATA.add(TESTMODEL(
+        value: selectedItem!,
+        date: date,
+        month: double.parse(DateTime.parse(date).month.toString()),
+        day: double.parse(DateTime.parse(date).day.toString()),
+        week: double.parse(DateTime.parse(date).weekday.toString()),
+        expenses: double.parse(expenses.text.trim())));
+
     Get.back();
   }
 }

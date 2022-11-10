@@ -28,21 +28,36 @@ class TESTMODEL {
   String value;
   String date;
   double expenses;
+  double? month;
+  double? day;
+  double? week;
 
   TESTMODEL({
     required this.value,
     required this.date,
     required this.expenses,
+    required this.day,
+    required this.month,
+    required this.week,
   });
 
   factory TESTMODEL.fromJson(Map<String, dynamic> json) => TESTMODEL(
         value: json['value'],
         date: json['date'],
         expenses: (json["expenses"] ?? 0) * 1.0,
+        month: json['month'],
+        day: json['day'],
+        week: json['week'],
       );
 
-  Map<String, dynamic> toJson() =>
-      {'value': value, 'date': date, 'expenses': expenses};
+  Map<String, dynamic> toJson() => {
+        'value': value,
+        'date': date,
+        'expenses': expenses,
+        'month': month,
+        'day': day,
+        'week': week
+      };
 }
 
 class TESTMODEL2 {

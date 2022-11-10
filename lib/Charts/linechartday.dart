@@ -3,14 +3,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:expense_project/Dashboards/Dashboard.dart';
 
-Map<double, double> Testing = {1.0: 5.0};
+import '../Dashboards/forindexingday.dart';
 
 List<Color> gradientColors = [
   const Color(0xff76A08C),
   const Color(0xff37604C),
 ];
 
-LineChartData mainDataDay(GetStorage benzene) {
+LineChartData mainDataDay(List<ForIndexingDay> list) {
   return LineChartData(
     gridData: FlGridData(
       show: true,
@@ -59,17 +59,15 @@ LineChartData mainDataDay(GetStorage benzene) {
       border: Border.all(color: const Color(0xff37434d)),
     ),
     minX: 0,
-    maxX: 11,
+    maxX: (list.length).toDouble(),
     minY: 0,
-    maxY: 9,
+    maxY: 50000,
     lineBarsData: [
       LineChartBarData(
-        spots: [
-          FlSpot(0, 8),
-          FlSpot(3, 4),
-          FlSpot(benzene.read('Day'), benzene.read('Amount')),
-          FlSpot(11, 6),
-        ],
+        spots: list
+            .map((point) => FlSpot((point.x).toDouble(), point.y.toDouble()))
+            .toList()
+          ..sort(((a, b) => a.x.compareTo(b.x))),
         isCurved: true,
         gradient: LinearGradient(
           colors: gradientColors,
@@ -83,7 +81,7 @@ LineChartData mainDataDay(GetStorage benzene) {
           show: true,
           gradient: LinearGradient(
             colors:
-            gradientColors.map((color) => color.withOpacity(1)).toList(),
+                gradientColors.map((color) => color.withOpacity(1)).toList(),
           ),
         ),
       ),

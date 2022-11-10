@@ -1,36 +1,29 @@
 import 'package:expense_project/Dashboards/Dashboard.dart';
+import 'package:expense_project/Model/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:expense_project/Charts/linechartweek.dart';
+import '../Model/GetxController.dart';
 import 'DashBoardDay.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:expense_project/main.dart';
+import 'forindexingweek.dart';
+import 'package:expense_project/Model/colors.dart' as color;
+import 'package:expense_project/Dashboards/forindexingweek.dart';
 
 class DashboardWeek extends StatefulWidget {
   @override
   State<DashboardWeek> createState() => _DashboardWeekState();
 }
 
-final benzene = GetStorage();
-void mm(benzene) {
-  benzene.write('Month', 5.0);
-  benzene.write('Day', 6.0);
-  benzene.write('Type', 'Food');
-  benzene.write('Date', "DateTime.now()");
-  benzene.write('Amount', 6.0);
-}
-
-var testval = 1;
-var testmap = {"Food": 222};
-var testmap2 = {testmap: "12-12-2012"};
-
 class _DashboardWeekState extends State<DashboardWeek> {
+  String date = DateTime.now().toString().changeDateFormat();
+  final TextEditingController expenses = TextEditingController();
+  final OMNIController WeekController = Get.put(OMNIController());
+
   @override
-  void initState() {
-    mm(benzene);
-    super.initState();
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +51,13 @@ class _DashboardWeekState extends State<DashboardWeek> {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStatePropertyAll(Color(0xff37604C)),
+                            MaterialStatePropertyAll(Color(0xff37604C)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff37604C))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff37604C))))),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -81,13 +74,13 @@ class _DashboardWeekState extends State<DashboardWeek> {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStatePropertyAll(Color(0xff37604C)),
+                            MaterialStatePropertyAll(Color(0xff37604C)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff37604C))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff37604C))))),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -104,13 +97,13 @@ class _DashboardWeekState extends State<DashboardWeek> {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStatePropertyAll(Color(0xff37604C)),
+                            MaterialStatePropertyAll(Color(0xff37604C)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side:
-                                BorderSide(color: Color(0xff37604C))))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side:
+                                        BorderSide(color: Color(0xff37604C))))),
                     onPressed: () {
                       Navigator.of(context).push(PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -129,7 +122,7 @@ class _DashboardWeekState extends State<DashboardWeek> {
               height: 170,
               width: 370,
               child: Card(
-                child: LineChart(mainDataWeek(benzene)),
+                child: LineChart(mainDataWeek(indexingg)),
               ),
             ),
             SizedBox(
@@ -146,40 +139,62 @@ class _DashboardWeekState extends State<DashboardWeek> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: ((context, index) {
-                  return Column(
-                    children: [
-                      Card(
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                fit: FlexFit.tight,
-                                child: ListTile(
-                                  title: Text(
-                                    benzene.read('Type'),
-                                  ),
-                                  subtitle: Text(
-                                    benzene.read('Date').toString(),
-                                  ),
-                                  leading: Icon(Icons.coffee),
-                                  trailing: Text(
-                                    benzene.read('Amount').toString(),
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ))
-                    ],
-                  );
-                }),
-                itemCount: testmap2.length,
-              ),
+              child: Obx(() => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: WeekController.DATA.length,
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        children: [
+                          Card(
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                      flex: 1,
+                                      fit: FlexFit.tight,
+                                      child: ListTile(
+                                        title: Text(
+                                            WeekController.DATA[index].value),
+                                        subtitle: Text(
+                                            WeekController.DATA[index].date),
+                                        leading: WeekController
+                                                    .DATA[index].value ==
+                                                "التسوق"
+                                            ? Icon(
+                                                Icons.shopping_basket_outlined)
+                                            : WeekController
+                                                        .DATA[index].value ==
+                                                    "مطعم"
+                                                ? Icon(Icons.restaurant)
+                                                : WeekController.DATA[index]
+                                                            .value ==
+                                                        "كافيه"
+                                                    ? Icon(
+                                                        Icons.coffee_outlined)
+                                                    : WeekController.DATA[index]
+                                                                .value ==
+                                                            "الهدايا"
+                                                        ? Icon(Icons
+                                                            .card_giftcard_outlined)
+                                                        : WeekController
+                                                                    .DATA[index]
+                                                                    .value ==
+                                                                "وسائل النقل"
+                                                            ? Icon(Icons
+                                                                .emoji_transportation_outlined)
+                                                            : Icon(Icons.menu),
+                                        trailing: Text(
+                                            "${WeekController.DATA[index].expenses}-",
+                                            style: TextStyle(
+                                                color: color.Colors.redColor)),
+                                      ))
+                                ],
+                              )),
+                        ],
+                      );
+                    }),
+                  )),
             ),
           ],
         ),
@@ -203,7 +218,7 @@ class _DashboardWeekState extends State<DashboardWeek> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "٢٢٤.٠٠٠",
+                      WeekController.total.toString(),
                       style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
@@ -215,7 +230,7 @@ class _DashboardWeekState extends State<DashboardWeek> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0xff37604C)),
                           borderRadius:
-                          BorderRadius.all(Radius.elliptical(250, 17)),
+                              BorderRadius.all(Radius.elliptical(250, 17)),
                         )),
                   ],
                 ),
@@ -233,38 +248,39 @@ class _DashboardWeekState extends State<DashboardWeek> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: testmap.length,
-                itemBuilder: ((context, index) {
-                  return Column(
-                    children: [
-                      Card(
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                fit: FlexFit.tight,
-                                child: ListTile(
-                                  title: Text(
-                                    testmap.keys.elementAt(index).toString(),
-                                  ),
-                                  subtitle: Text("12-03-2022"),
-                                  leading: Icon(Icons.coffee),
-                                  trailing: Text(
-                                    testmap.values.elementAt(index).toString(),
-                                    style: TextStyle(color: Color(0xff37604C)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ))
-                    ],
-                  );
-                }),
-              ),
+              child: Obx(() => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: WeekController.DATA2.length,
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text(WeekController.DATA2[index].value),
+                            subtitle: Text(WeekController.DATA2[index].date),
+                            leading: WeekController.DATA2[index].value ==
+                                    "التسوق"
+                                ? Icon(Icons.shopping_basket_outlined)
+                                : WeekController.DATA[index].value == "مطعم"
+                                    ? Icon(Icons.restaurant)
+                                    : WeekController.DATA[index].value ==
+                                            "كافيه"
+                                        ? Icon(Icons.coffee_outlined)
+                                        : WeekController.DATA[index].value ==
+                                                "الهدايا"
+                                            ? Icon(Icons.card_giftcard_outlined)
+                                            : WeekController
+                                                        .DATA[index].value ==
+                                                    "وسائل النقل"
+                                                ? Icon(Icons
+                                                    .emoji_transportation_outlined)
+                                                : Icon(Icons.menu),
+                            trailing:
+                                Text("${WeekController.DATA2[index].expenses}"),
+                          )
+                        ],
+                      );
+                    }),
+                  )),
             ),
           ],
         ),
