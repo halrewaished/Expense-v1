@@ -1,30 +1,35 @@
 import 'package:expense_project/page/tabbar.dart';
 import 'package:expense_project/page/welcome.dart';
+import 'package:expense_project/page1/home_page.dart';
+import 'package:expense_project/page1/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_project/Model/colors.dart' as color;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+// import 'package:expense_project/page1/onboarding_page.dart';
 
 import 'Model/boxGetStorage.dart';
 import 'Model/omniModel.dart';
 
-
 void main() async {
   await GetStorage.init();
-  runApp(const MyApp());
+  runApp(MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: color.Colors.backgroundGreenColor,
   ));
 }
 
 class MyApp extends StatelessWidget {
+  static String? title;
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        // home: OnBoardingPage(),
         textDirection: TextDirection.rtl,
         debugShowCheckedModeBanner: false,
         title: 'Expense App',
@@ -61,6 +66,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         getPages: [
           GetPage(name: '/', page: () => const splash()),
+          GetPage(name: '/Onboard', page: () => OnBoardingPage()),
           GetPage(name: '/WelcomePage', page: () => const WelcomePage()),
           GetPage(name: '/TabBarPage', page: () => const TabBarPage()),
         ]);
@@ -78,7 +84,8 @@ class _splashState extends State<splash> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
+      Get.to(OnBoardingPage());
       _wrapper();
     });
   }
@@ -102,7 +109,8 @@ class _splashState extends State<splash> {
     if (omni != null) {
       Get.offAndToNamed('/TabBarPage');
     } else {
-      Get.offAndToNamed('/WelcomePage');
+      Get.to(OnBoardingPage());
+      // Get.offAndToNamed('/WelcomePage');
     }
   }
 }
