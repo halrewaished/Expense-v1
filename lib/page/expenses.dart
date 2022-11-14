@@ -16,11 +16,13 @@ class ExpensePage extends StatefulWidget {
 
 class _ExpensePageState extends State<ExpensePage> {
 
-  String date = DateTime.now().toString().changeDateFormat();
   final TextEditingController expenses = TextEditingController();
   final items = ['التسوق', 'مطعم', 'كافيه', 'الهدايا', 'وسائل النقل'];
+  double month = double.parse(DateTime.now().day.toString());
+  double day = double.parse(DateTime.now().hour.toString());
+  double week = double.parse(DateTime.now().weekday.toString());
 
-  String? selectedItem = 'التسوق';
+  // String? selectedItem = 'التسوق';
   final GlobalKey<FormState> _formKey = GlobalKey();
   final OMNIController Controller = Get.find();
 
@@ -53,29 +55,30 @@ class _ExpensePageState extends State<ExpensePage> {
                         height: MediaQuery.of(context).size.height / 12,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(
-                                    width: 1,
-                                    color: color.Colors.backgroundGreenColor),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide: BorderSide(
+                                      width: 1,
+                                      color: color.Colors.backgroundGreenColor),
+                                ),
                               ),
-                            ),
-                            value: selectedItem,
-                            iconSize: 20,
-                            icon: Icon(Icons.keyboard_arrow_down_sharp,
-                                color: color.Colors.backgroundGreenColor),
-                            isExpanded: true,
-                            items: items
-                                .map((item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: TextStyle(fontSize: 16),
-                                    )))
-                                .toList(),
-                            onChanged: (item) => setState(() => selectedItem = item),
-                          ),
+                              value: Controller.selectedItem,
+                              iconSize: 20,
+                              icon: Icon(Icons.keyboard_arrow_down_sharp,
+                                  color: color.Colors.backgroundGreenColor),
+                              isExpanded: true,
+                              items: items
+                                  .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(fontSize: 16),
+                                      )))
+                                  .toList(),
+                              onChanged: (item) {
+                                Controller.selectedItem = item;
+                              }),
                         ),
                       ),
                       Align(
@@ -122,8 +125,11 @@ class _ExpensePageState extends State<ExpensePage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 12,
                         child: TextFormField(
-                          initialValue: DateTime.now().toString().changeDateFormat(),
-                          onChanged: (item) => setState(() => date = item),
+                          initialValue:
+                              DateTime.now().toString().changeDateFormat(),
+                          onChanged: (item) {
+                            Controller.date = item;
+                          },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(6),
@@ -136,7 +142,10 @@ class _ExpensePageState extends State<ExpensePage> {
                       ),
                       SizedBox(
                         child: ElevatedButton(
-                          onPressed: _btnSave,
+                          onPressed:(){
+                            _btnSave();
+                            Controller.buildTotal();
+                          },
                           child: Text(
                             'إضـافة',
                             style: TextStyle(
@@ -165,7 +174,7 @@ class _ExpensePageState extends State<ExpensePage> {
     return (expenses.text.trim() == "");
   }
 
-  _btnSave() async {
+  _btnSave()  {
     _formKey.currentState!.save();
     if (_validation()) {
       Get.customSnackbar(
@@ -175,7 +184,18 @@ class _ExpensePageState extends State<ExpensePage> {
       );
       return;
     }
-    Controller.DATA.add(TESTMODEL(value: selectedItem!, date: date, expenses: double.parse(expenses.text.trim())));
+    Controller.DATA.add(
+      EXPENCEMODEL(
+        value: Controller.selectedItem!,
+        date: Controller.date,
+        month: double.parse(DateTime.parse(Controller.date).month.toString()),
+        day: double.parse(DateTime.parse(Controller.date).day.toString()),
+        week: double.parse(DateTime.parse(Controller.date).weekday.toString()),
+        expenses: double.parse(
+          expenses.text.trim(),
+        ),
+      ),
+    );
     Get.back();
   }
 }

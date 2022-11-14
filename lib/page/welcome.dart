@@ -5,18 +5,12 @@ import 'package:expense_project/Model/colors.dart' as color;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 import '../Model/boxGetStorage.dart';
 import '../Model/omniModel.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class WelcomePage extends StatelessWidget {
+  WelcomePage({Key? key}) : super(key: key);
 
-  @override
-  State<WelcomePage> createState() => _WelcomePageState();
-}
-
-class _WelcomePageState extends State<WelcomePage> {
   final TextEditingController income = TextEditingController();
   final TextEditingController name = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -174,8 +168,9 @@ class _WelcomePageState extends State<WelcomePage> {
       );
       return;
     }
-   final model = OMNIModel(name: name.text.trim(), income: double.parse(income.text.trim()));
-   await OMNI.shared.set(OMNI: model);
-   Get.offAndToNamed('/TabBarPage');
+    final model = OMNIModel(
+        name: name.text.trim(), income: double.parse(income.text.trim()));
+    await OMNI.shared.set(OMNI: model);
+    Get.offAndToNamed('/TabBarPage');
   }
 }

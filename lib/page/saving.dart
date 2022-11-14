@@ -14,10 +14,10 @@ class SavingPage extends StatefulWidget {
 }
 
 class _SavingPageState extends State<SavingPage> {
-  @override
   String date = DateTime.now().toString().changeDateFormat();
-  final TextEditingController expenses = TextEditingController();
-  final TextEditingController saving = TextEditingController();
+
+  // final TextEditingController expenses = TextEditingController();
+  // final TextEditingController saving = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final OMNIController Controller = Get.find();
@@ -38,7 +38,7 @@ class _SavingPageState extends State<SavingPage> {
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text("نسبـة الإدخـار ١٠ ٪ ",
+                        child: Text("اخـتر نسـبة الإدخـار",
                             style: TextStyle(
                                 fontFamily: 'Noto',
                                 height: 3,
@@ -49,16 +49,36 @@ class _SavingPageState extends State<SavingPage> {
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 12,
-                        child: TextFormField(
-                          controller: saving,
-                          decoration: InputDecoration(
-                            hintText: '10 %',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                  width: 1,
-                                  color: color.Colors.backgroundGreenColor),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(
+                                    width: 1,
+                                    color: color.Colors.backgroundGreenColor),
+                              ),
                             ),
+                            value: 'اخـتر نسبـة الإدخـار',
+                            iconSize: 20,
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,
+                                color: color.Colors.backgroundGreenColor),
+                            isExpanded: true,
+                            items: Controller.itemsList
+                                .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(fontSize: 16),
+                                    )))
+                                .toList(),
+                            // onChanged: (item) {
+                            //   Controller.calcRating(item);
+                            // }
+
+                            onChanged: (item) => setState(() {
+                              Controller.calcRating(item);
+                            }),
                           ),
                         ),
                       ),
@@ -73,13 +93,23 @@ class _SavingPageState extends State<SavingPage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 12,
-                        child: TextFormField(
-                          controller: expenses,
-                          decoration: InputDecoration(
-                            hintText: '100 SR',
-                            border: OutlineInputBorder(),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 12,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 25, horizontal: 15),
+                              child: Text('${Controller.income2} ريال '),
+                            ),
                           ),
                         ),
                       ),
@@ -99,7 +129,12 @@ class _SavingPageState extends State<SavingPage> {
                         child: TextFormField(
                           initialValue:
                               DateTime.now().toString().changeDateFormat(),
-                          onChanged: (item) => setState(() => date = item),
+                          // onChanged: (item) {
+                          //   Controller.date = item;
+                          // },
+                          onChanged: (item) => setState(() {
+                            Controller.date = item;
+                          }),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -107,7 +142,10 @@ class _SavingPageState extends State<SavingPage> {
                       ),
                       SizedBox(
                         child: ElevatedButton(
-                          onPressed: _btnSave,
+                          onPressed: () {
+                            _btnSave();
+                            Controller.buildTotal();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: color.Colors.backgroundGreenColor,
                             minimumSize: Size.fromHeight(48),
@@ -132,21 +170,25 @@ class _SavingPageState extends State<SavingPage> {
     );
   }
 
-  bool _validation() {
-    return (expenses.text.trim() == "");
-  }
+  // bool _validation() {
+  //   return (Controller.selectItem == 'اخـتر نسبـة الإدخـار');
+  // }
 
-  _btnSave() async {
-    _formKey.currentState!.save();
-    if (_validation()) {
-      Get.customSnackbar(
-        title: "خطأ",
-        message: "الرجاء إدخال كافة الحقول",
-        isError: true,
-      );
-      return;
-    }
-    Controller.DATA2.add(TESTMODEL2(value: saving.text.trim(), date: date, expenses: double.parse(expenses.text.trim())));
+  _btnSave() {
+    // _formKey.currentState!.save();
+    // if (_validation()) {
+    //   Get.customSnackbar(
+    //     title: "خطأ",
+    //     message: "الرجاء إدخال كافة الحقول",
+    //     isError: true,
+    //   );
+    //   return;
+    // }
+    Controller.DATA2.add(SAVINGMODEL(
+      value: Controller.selectItem!,
+      date: Controller.date,
+      // textSaving: Controller.income2.toString(),
+    ));
     Get.back();
   }
 }

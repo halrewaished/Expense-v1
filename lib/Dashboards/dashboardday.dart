@@ -1,35 +1,30 @@
+import 'package:expense_project/Dashboards/forindexingday.dart';
+import 'package:expense_project/Model/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:expense_project/Charts/linechartday.dart';
+import '../Model/GetxController.dart';
 import 'DashBoard.dart';
 import 'package:expense_project/main.dart';
 import 'dashboardweek.dart';
+import 'package:expense_project/Model/colors.dart' as color;
 
 class DashboardDay extends StatefulWidget {
   @override
   State<DashboardDay> createState() => _DashboardDayState();
 }
 
-final benzene = GetStorage();
-void mm(benzene) {
-  benzene.write('Month', 5.0);
-  benzene.write('Day', 6.0);
-  benzene.write('Type', 'Food');
-  benzene.write('Date', "DateTime.now()");
-  benzene.write('Amount', 3.0);
-}
-
-var testval = 1;
-var testmap = {"Food": 222};
-var testmap2 = {testmap: "12-12-2012"};
-
 class _DashboardDayState extends State<DashboardDay> {
+  String date = DateTime.now().toString().changeDateFormat();
+  final TextEditingController expenses = TextEditingController();
+  OMNIController DayController = Get.put(OMNIController());
   @override
   void initState() {
-    mm(benzene);
-    super.initState();
+    String date = DateTime.now().toString().changeDateFormat();
+    final TextEditingController expenses = TextEditingController();
+    DayController = Get.put(OMNIController());
   }
 
   @override
@@ -129,7 +124,7 @@ class _DashboardDayState extends State<DashboardDay> {
               height: 170,
               width: 370,
               child: Card(
-                child: LineChart(mainDataDay(benzene)),
+                child: LineChart(mainDataDay(indexingg)),
               ),
             ),
             SizedBox(
@@ -147,6 +142,7 @@ class _DashboardDayState extends State<DashboardDay> {
             ),
             Expanded(
               child: ListView.builder(
+                itemCount: DayController.DATA.length,
                 shrinkWrap: true,
                 itemBuilder: ((context, index) {
                   return Column(
@@ -160,17 +156,33 @@ class _DashboardDayState extends State<DashboardDay> {
                                 flex: 1,
                                 fit: FlexFit.tight,
                                 child: ListTile(
-                                  title: Text(
-                                    benzene.read('Type'),
-                                  ),
-                                  subtitle: Text(
-                                    benzene.read('Date').toString(),
-                                  ),
-                                  leading: Icon(Icons.coffee),
+                                  title: Text(DayController.DATA[index].value),
+                                  subtitle:
+                                  Text(DayController.DATA[index].date),
+                                  leading: DayController.DATA[index].value ==
+                                      "التسوق"
+                                      ? Icon(Icons.shopping_basket_outlined)
+                                      : DayController.DATA[index].value ==
+                                      "مطعم"
+                                      ? Icon(Icons.restaurant)
+                                      : DayController.DATA[index].value ==
+                                      "كافيه"
+                                      ? Icon(Icons.coffee_outlined)
+                                      : DayController
+                                      .DATA[index].value ==
+                                      "الهدايا"
+                                      ? Icon(Icons
+                                      .card_giftcard_outlined)
+                                      : DayController.DATA[index]
+                                      .value ==
+                                      "وسائل النقل"
+                                      ? Icon(Icons
+                                      .emoji_transportation_outlined)
+                                      : Icon(Icons.menu),
                                   trailing: Text(
-                                    benzene.read('Amount').toString(),
-                                    style: TextStyle(color: Colors.red),
-                                  ),
+                                      "${DayController.DATA[index].expenses}-",
+                                      style: TextStyle(
+                                          color: color.Colors.redColor)),
                                 ),
                               ),
                             ],
@@ -178,7 +190,6 @@ class _DashboardDayState extends State<DashboardDay> {
                     ],
                   );
                 }),
-                itemCount: testmap2.length,
               ),
             ),
           ],
@@ -203,7 +214,7 @@ class _DashboardDayState extends State<DashboardDay> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "٢٢٤.٠٠٠",
+                      "${DayController.total}",
                       style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
@@ -235,7 +246,7 @@ class _DashboardDayState extends State<DashboardDay> {
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: testmap.length,
+                itemCount: DayController.DATA2.length,
                 itemBuilder: ((context, index) {
                   return Column(
                     children: [
@@ -248,15 +259,31 @@ class _DashboardDayState extends State<DashboardDay> {
                                 flex: 1,
                                 fit: FlexFit.tight,
                                 child: ListTile(
-                                  title: Text(
-                                    testmap.keys.elementAt(index).toString(),
-                                  ),
-                                  subtitle: Text("12-03-2022"),
-                                  leading: Icon(Icons.coffee),
+                                  title: Text(DayController.DATA2[index].value),
+                                  subtitle:
+                                  Text(DayController.DATA2[index].date),
+                                  // leading: DayController.DATA2[index].value ==
+                                  //     "التسوق"
+                                  //     ? Icon(Icons.shopping_basket_outlined)
+                                  //     : DayController.DATA[index].value ==
+                                  //     "مطعم"
+                                  //     ? Icon(Icons.restaurant)
+                                  //     : DayController.DATA[index].value ==
+                                  //     "كافيه"
+                                  //     ? Icon(Icons.coffee_outlined)
+                                  //     : DayController
+                                  //     .DATA[index].value ==
+                                  //     "الهدايا"
+                                  //     ? Icon(Icons
+                                  //     .card_giftcard_outlined)
+                                  //     : DayController.DATA[index]
+                                  //     .value ==
+                                  //     "وسائل النقل"
+                                  //     ? Icon(Icons
+                                  //     .emoji_transportation_outlined)
+                                  //     : Icon(Icons.menu),
                                   trailing: Text(
-                                    testmap.values.elementAt(index).toString(),
-                                    style: TextStyle(color: Color(0xff37604C)),
-                                  ),
+                                      "${DayController.income2}"),
                                 ),
                               ),
                             ],

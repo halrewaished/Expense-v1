@@ -8,10 +8,12 @@ class OMNIModel {
   OMNIModel({
     this.name,
     this.income,
+    this.income2,
   });
 
   String? name;
   double? income;
+  double? income2;
 
   factory OMNIModel.fromJson(Map<String, dynamic>? json) => OMNIModel(
         name: json!["name"] ?? "test",
@@ -24,44 +26,59 @@ class OMNIModel {
       };
 }
 
-class TESTMODEL {
+class EXPENCEMODEL {
   String value;
   String date;
   double expenses;
+  double? month;
+  double? day;
+  double? week;
 
-  TESTMODEL({
+  EXPENCEMODEL({
     required this.value,
     required this.date,
     required this.expenses,
+    required this.day,
+    required this.month,
+    required this.week,
   });
 
-  factory TESTMODEL.fromJson(Map<String, dynamic> json) => TESTMODEL(
+  factory EXPENCEMODEL.fromJson(Map<String, dynamic> json) => EXPENCEMODEL(
         value: json['value'],
         date: json['date'],
         expenses: (json["expenses"] ?? 0) * 1.0,
+        month: json['month'],
+        day: json['day'],
+        week: json['week'],
       );
 
-  Map<String, dynamic> toJson() =>
-      {'value': value, 'date': date, 'expenses': expenses};
+  Map<String, dynamic> toJson() => {
+        'value': value,
+        'date': date,
+        'expenses': expenses,
+        'month': month,
+        'day': day,
+        'week': week
+      };
 }
 
-class TESTMODEL2 {
+class SAVINGMODEL {
   String value;
   String date;
-  double expenses;
 
-  TESTMODEL2({
+  // String textSaving;
+
+  SAVINGMODEL({
     required this.value,
     required this.date,
-    required this.expenses,
+    // required this.textSaving,
   });
 
-  factory TESTMODEL2.fromJson(Map<String, dynamic> json) => TESTMODEL2(
+  factory SAVINGMODEL.fromJson(Map<String, dynamic> json) => SAVINGMODEL(
         value: json['value'],
         date: json['date'],
-        expenses: (json["expenses"] ?? 0) * 1.0,
+        // textSaving: json["textSaving"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {'value': value, 'date': date, 'expenses': expenses};
+  Map<String, dynamic> toJson() => {'value': value, 'date': date};
 }

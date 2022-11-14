@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import '../Dashboards/DashBoard.dart';
 import '../Model/colors.dart' as color;
-
 import 'show.dart';
-import '../Dashboards/Dashboard.dart';
 import 'home.dart';
-
-
-
 
 class TabBarItem {
   final IconData icon;
   final String label;
   final Widget page;
+
   TabBarItem(this.icon, this.label, this.page);
 }
 
@@ -27,15 +24,12 @@ class _TabBarPageState extends State<TabBarPage> {
   int indexTap = 0;
 
   List<TabBarItem> tabItems = [
-  TabBarItem(Icons.home_filled,  "الرئيسية",  TopSection()),
-  TabBarItem(Icons.bar_chart, "الإحصائيات",   Dashboard())
-
+    TabBarItem(Icons.home_filled, "الرئيسية", TopSection()),
+    TabBarItem(Icons.bar_chart, "الإحصائيات", DefaultTabController(length: 2, child: Dashboard()))
   ];
-
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _pageController.dispose();
     super.dispose();
   }
@@ -50,18 +44,14 @@ class _TabBarPageState extends State<TabBarPage> {
           onPressed: () {
             showModalBottomSheet<void>(
                 context: context,
-                isScrollControlled:true,
+                isScrollControlled: true,
                 // useRootNavigator : false,
                 builder: (BuildContext context) {
-
                   return const FractionallySizedBox(
-
                     heightFactor: 0.75,
-
                     child: show(),
                   );
-                }
-            );
+                });
           },
           child: const Icon(Icons.add),
         ),
@@ -85,8 +75,7 @@ class _TabBarPageState extends State<TabBarPage> {
             });
             _pageController.animateToPage(indexTap,
                 duration: const Duration(milliseconds: 200),
-                curve: Curves.easeIn
-            );
+                curve: Curves.easeIn);
           },
           type: BottomNavigationBarType.fixed,
           currentIndex: indexTap,
@@ -104,11 +93,17 @@ class _TabBarPageState extends State<TabBarPage> {
     return items;
   }
 
-
   List<BottomNavigationBarItem> _renderTaps() {
     List<BottomNavigationBarItem> items = [];
     for (var i = 0; i < tabItems.length; i++) {
-      BottomNavigationBarItem obj = BottomNavigationBarItem(icon: Icon(tabItems[i].icon, color: indexTap == i ? color.Colors.backgroundGreenColor : Colors.black26,), label: tabItems[i].label);
+      BottomNavigationBarItem obj = BottomNavigationBarItem(
+          icon: Icon(
+            tabItems[i].icon,
+            color: indexTap == i
+                ? color.Colors.backgroundGreenColor
+                : Colors.black26,
+          ),
+          label: tabItems[i].label);
       items.add(obj);
     }
     return items;
