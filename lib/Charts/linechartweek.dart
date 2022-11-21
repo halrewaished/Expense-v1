@@ -62,7 +62,7 @@ LineChartData mainDataWeek(List<ForIndexingWeek> list) {
     minX: 0,
     maxX: 6,
     minY: 0,
-    maxY: 50000,
+    maxY: 5000,
     lineBarsData: [
       LineChartBarData(
         spots: list
@@ -104,7 +104,7 @@ Widget bottomTitleWidgets(double value, TitleMeta meta) {
     case 5:
       text = const Text('Fri', style: style);
       break;
-      break;
+
     default:
       text = const Text('', style: style);
       break;

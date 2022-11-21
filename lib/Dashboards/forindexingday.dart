@@ -22,7 +22,10 @@ List<ForIndexingDay> get indexingg {
   final data = Controller.DATA.value;
 
   data.forEach((element) {
-    if (element.day != null && element.day == DateTime.now().day) {
+    if (element.day != null &&
+        element.day == DateTime.now().day &&
+        element.month == DateTime.now().month &&
+        (element.year != null && element.year == DateTime.now().year)) {
       tempkey.add(element.day!.toDouble());
       tempexpense.add(element.expenses);
     }

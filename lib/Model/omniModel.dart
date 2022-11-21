@@ -31,6 +31,7 @@ class TESTMODEL {
   double? month;
   double? day;
   double? week;
+  double? year;
 
   TESTMODEL({
     required this.value,
@@ -39,6 +40,7 @@ class TESTMODEL {
     required this.day,
     required this.month,
     required this.week,
+    required this.year,
   });
 
   factory TESTMODEL.fromJson(Map<String, dynamic> json) => TESTMODEL(
@@ -48,6 +50,7 @@ class TESTMODEL {
         month: json['month'],
         day: json['day'],
         week: json['week'],
+        year: json['year'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,7 +59,8 @@ class TESTMODEL {
         'expenses': expenses,
         'month': month,
         'day': day,
-        'week': week
+        'week': week,
+        'year': year
       };
 }
 

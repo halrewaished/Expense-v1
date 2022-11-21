@@ -20,13 +20,20 @@ List<ForIndexing> get indexingg {
   double total = 0;
   final OMNIController Controller = Get.put(OMNIController());
   final data = Controller.DATA.value;
-
   var groupbymonth = groupBy(data, ((p0) => p0.month));
   groupbymonth.removeWhere((key, value) => key == null);
+
   groupbymonth.forEach((keys, value) {
-    total = value.fold(0, (total, element) => total + element.expenses);
-    keyss.add(keys!);
-    totals.add(total);
+    value.forEach((element) {
+      total = value.fold(0, (total, element) {
+        if (element.year != null && element.year == DateTime.now().year) {
+          return total + element.expenses;
+        }
+        return total + 0;
+      });
+      keyss.add(keys!);
+      totals.addIf(total != 0, total);
+    });
 
     for (int i = 0; i < totals.length; i++) {
       totalkey[keyss[i]] = totals[i];

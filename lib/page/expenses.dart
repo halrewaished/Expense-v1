@@ -19,6 +19,7 @@ class _ExpensePageState extends State<ExpensePage> {
   double month = double.parse(DateTime.now().day.toString());
   double day = double.parse(DateTime.now().hour.toString());
   double week = double.parse(DateTime.now().weekday.toString());
+  double year = double.parse(DateTime.now().year.toString());
   final TextEditingController expenses = TextEditingController();
   final items = ['التسوق', 'مطعم', 'كافيه', 'الهدايا', 'وسائل النقل'];
 
@@ -187,6 +188,7 @@ class _ExpensePageState extends State<ExpensePage> {
         month: double.parse(DateTime.parse(date).month.toString()),
         day: double.parse(DateTime.parse(date).day.toString()),
         week: double.parse(DateTime.parse(date).weekday.toString()),
+        year: double.parse(DateTime.parse(date).year.toString()),
         expenses: double.parse(expenses.text.trim())));
 
     Get.back();
