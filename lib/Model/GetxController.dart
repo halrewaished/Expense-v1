@@ -13,35 +13,32 @@ class OMNIController extends GetxController {
   String? selectedItem = 'التسوق';
   String date = DateTime.now().toString().changeDateFormat();
 
-
   double? income;
   double? income2;
 
-  final itemsList = ['اخـتر نسبـة الإدخـار','10', '20', '30', '40'];
+  final itemsList = ['اخـتر نسبـة الإدخـار', '10', '20', '30', '40'];
 
   void calcRating(item) {
-
     if (item == '10') {
-        // income = income! * 0.9;
-        income2 = (income! * 0.1);
-        update();
-      }
+      // income = income! * 0.9;
+      income2 = (income! * 0.1);
+      update();
+    }
 
-    if(item == '20'){
+    if (item == '20') {
       income2 = (income! * 0.2);
       update();
     }
 
-    if(item == '30'){
+    if (item == '30') {
       income2 = (income! * 0.3);
       update();
     }
 
-    if(item == '40'){
+    if (item == '40') {
       income2 = (income! * 0.4);
       update();
     }
-
   }
 
   @override
@@ -70,8 +67,6 @@ class OMNIController extends GetxController {
   double total = 0;
   var total2 = 0;
   double total3 = 0;
-
-
 
   void buildTotal() {
     double sum = 0.0;

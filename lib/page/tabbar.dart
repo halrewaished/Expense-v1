@@ -25,7 +25,8 @@ class _TabBarPageState extends State<TabBarPage> {
 
   List<TabBarItem> tabItems = [
     TabBarItem(Icons.home_filled, "الرئيسية", TopSection()),
-    TabBarItem(Icons.bar_chart, "الإحصائيات", DefaultTabController(length: 2, child: Dashboard()))
+    TabBarItem(Icons.bar_chart, "الإحصائيات",
+        DefaultTabController(length: 2, child: Dashboard()))
   ];
 
   @override
